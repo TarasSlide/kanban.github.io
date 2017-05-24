@@ -1,0 +1,217 @@
+<div class="columns-wrap">
+    <div class="columns-scrollbar">
+        <div class="color-white">
+            <a href="#!/" class="color-white">main-page</a>
+        </div>
+        <div>
+            <h1 class="color-white column-title">{{$ctrl.board.name}} | </h1>
+            <form class="add-column-form" name="createColumnForm">
+                <input type="text" name="columnName" placeholder="Column name" ng-model="name" autocomplete="off">
+                <button type="submit"
+                        ng-click="!name ? return : $ctrl.addColumn($ctrl.board.columns, name | removeSpaces, name); name = ''">
+                    Add Column
+                </button>
+                <!--<span ng-show="createColumnForm.columnName.$touched && createColumnForm.columnName.$invalid" class="error-text">Input required</span>-->
+            </form>
+        </div>
+        <div class="column" ng-repeat="column in $ctrl.board.columns" dnd-list="column.sheets">
+
+            <!-- Remove and Edit buttons columns -->
+            <i class="fa edit-btn"
+               ng-init="columnEditable = false"
+               ng-class="{'fa-pencil-square-o text-primary': !columnEditable,'fa-check text-success': columnEditable}"
+               ng-click="columnEditable = !columnEditable;">
+            </i>
+            <remove-button remove-data="$ctrl.board.columns" remove-index="$index"></remove-button>
+            <!-- Remove and Edit buttons columns -->
+
+            <h2 ng-class="{'edite-mode': columnEditable}"
+               ng-dblclick="columnEditable = !columnEditable;"
+               contenteditable="{{columnEditable}}"
+               class="column-title block"
+               ng-model="column.title"
+            >
+            </h2>
+
+            <!-- Column info  -->
+            <div class="column-info">
+                <p>Sheets count: {{column.sheets.length}}</p>
+                <p>Total estimated: {{$ctrl.timeConvertFromMinutes($ctrl.getColumnTime(column.sheets, 'estimatedTime'))}}</p>
+                <p>Total remaining: {{$ctrl.timeConvertFromMinutes($ctrl.getColumnTime(column.sheets, 'remaningTime'))}}
+                </p>
+            </div>
+            <!-- Column info  end -->
+
+            <button ng-click="$ctrl.addSheet(column.sheets)" class="add-cart">
+                <i class="fa fa-plus"></i> Add sheet
+            </button>
+
+            <!-- Sheets list -->
+            <ul dnd-list="column.sheets" class="sheets-list">
+                <li class="sheet"
+                    ng-repeat="sheet in column.sheets"
+                    dnd-draggable="sheet"
+                    dnd-moved="column.sheets.splice($index, 1)"
+                    dnd-effect-allowed="move"
+                    dnd-selected="models.selected = sheet"
+                    ng-class="{'selected': models.selected === sheet}"
+                >
+                    <h4 class="sheet-name" ng-click="sheetOpen = !sheetOpen" ng-init="sheetOpen = false" ng-show="sheet.title">
+                        {{sheet.title}}
+                        <span ng-show="sheetOpen"><i class="fa fa-sort-asc" aria-hidden="true"></i></span>
+                        <span ng-show="!sheetOpen"><i class="fa fa-sort-desc" aria-hidden="true"></i></span>
+                    </h4>
+
+                    <!-- Remove and Edit buttons sheets -->
+                    <remove-button remove-data="column.sheets" remove-index="$index"></remove-button>
+                    <i class="fa edit-btn"
+                       ng-init="sheetEditable = false"
+                       ng-class="{'fa-pencil-square-o text-primary': !sheetEditable,'fa-check text-success': sheetEditable}"
+                       ng-click="sheetEditable = !sheetEditable; sheetOpen = true;">
+                    </i>
+                    <!-- Remove and Edit buttons sheets end -->
+
+                    <!-- if sheet empty -->
+                    <div ng-show="!sheet.title" ng-click="sheetOpen = true; sheetEditable = !sheetEditable;" class="pointer">Add data</div>
+                    <!-- if sheet empty end -->
+
+                    <div class="sheet-info" ng-class="{'sheet-info-open': sheetEditable}" ng-show="sheetOpen">
+                        <label>Title:</label>
+                        <p ng-class="{'edite-mode': sheetEditable}"
+                           ng-dblclick="sheetEditable = !sheetEditable;"
+                           contenteditable="{{sheetEditable}}"
+                           class="field sheet-content"
+                           ng-model="sheet.title">
+                        </p>
+
+                        <label>Description:</label>
+                        <p ng-class="{'edite-mode': sheetEditable}"
+                           ng-dblclick="sheetEditable = !sheetEditable;"
+                           contenteditable="{{sheetEditable}}"
+                           class="field sheet-content"
+                           ng-model="sheet.description">
+                        </p>
+
+                        <div class="border-block">
+                            <label>Members:</label>
+                            <p ng-repeat="member in sheet.members track by $index"
+                               ng-class="{'edite-mode': sheetEditable}"
+                               ng-dblclick="sheetEditable = !sheetEditable;"
+                               contenteditable="{{sheetEditable}}"
+                               class="field sheet-content"
+                               ng-model="member">
+                            </p>
+
+                            <add-item addfunc="$ctrl.addItem" array="sheet.members" itemname="member"></add-item>
+                        </div>
+
+                        <div class="border-block">
+                            <label>Comments:</label>
+                            <p ng-repeat="comment in sheet.comments track by $index"
+                               ng-class="{'edite-mode': sheetEditable}"
+                               ng-dblclick="sheetEditable = !sheetEditable;"
+                               contenteditable="{{sheetEditable}}"
+                               class="field sheet-content"
+                               ng-model="comment">
+                            </p>
+                            <add-item addfunc="$ctrl.addItem" array="sheet.comments" itemname="comment"></add-item>
+                        </div>
+
+                        <div class="clearfix date-picker-wrap">
+                            <label>Due date:</label>
+                            <datepicker date-format="yyyy-MM-dd">
+                                <input ng-model="sheet.dueDate" type="text" class="datepicker-input"/>
+                            </datepicker>
+                        </div>
+
+                        <label>Time traking (TF: 1m 1h 1d 1M):</label>
+                        <div class="text-left">
+                            <label>Estimate time:</label>
+                            <p
+                                ng-class="{'edite-mode': sheetEditable}"
+                                ng-dblclick="sheetEditable = !sheetEditable;"
+                                contenteditable="{{sheetEditable}}"
+                                class="field sheet-content time-field"
+                                ng-model="sheet.timeTraking.estimatedTime">
+                            </p>
+                        </div>
+                        <div class="text-left">
+                            <label>Spend time:</label>
+                            <p
+                                ng-class="{'edite-mode': sheetEditable}"
+                                ng-dblclick="sheetEditable = !sheetEditable;"
+                                contenteditable="{{sheetEditable}}"
+                                class="field sheet-content time-field"
+                                ng-model="sheet.timeTraking.spentTime">
+                            </p>
+                        </div>
+                        <div class="text-left">
+                            <label>Remaning time:</label>
+                            <p
+                                ng-class="{'edite-mode': sheetEditable}"
+                                ng-dblclick="sheetEditable = !sheetEditable;"
+                                contenteditable="{{sheetEditable}}"
+                                class="field sheet-content time-field"
+                                ng-model="sheet.timeTraking.remaningTime">
+                            </p>
+                        </div>
+
+                        <div class="border-block">
+                            <label>Attachments:</label>
+                            <p ng-repeat="attachment in sheet.attachments track by $index"
+                               ng-class="{'edite-mode': sheetEditable}"
+                               ng-dblclick="sheetEditable = !sheetEditable;"
+                               contenteditable="{{sheetEditable}}"
+                               class="field sheet-content"
+                               ng-model="attachment">
+                            </p>
+
+                            <add-item addfunc="$ctrl.addItem" array="sheet.attachments" itemname="attachment"></add-item>
+                        </div>
+
+                        <label>Checklists:</label>
+                        <div ng-show="sheet.checklists.length">
+                            <strong>Progress</strong>: <span>{{ $ctrl.getCheckedChecklists(sheet).length }}</span>/{{sheet.checklists.length}}
+                            ({{$ctrl.getCheckedChecklists(sheet).length / sheet.checklists.length * 100 | roundNumber}} %)
+                        </div>
+                        <div ng-repeat="checklist in sheet.checklists" class="border-block">
+                            <div>
+                                <input type="checkbox" ng-click="checklist.checked = !checklist.checked" ng-checked="checklist.checked">
+                                <span
+                                    ng-class="{'edite-mode': sheetEditable}"
+                                    ng-dblclick="sheetEditable = !sheetEditable;"
+                                    contenteditable="{{sheetEditable}}"
+                                    class="field sheet-content"
+                                    ng-model="checklist.name">
+                                </span>
+                            </div>
+                            <p
+                                ng-class="{'edite-mode': sheetEditable}"
+                                ng-dblclick="sheetEditable = !sheetEditable;"
+                                contenteditable="{{sheetEditable}}"
+                                class="field sheet-content"
+                                ng-model="checklist.description">
+                            </p>
+                        </div>
+                        <button ng-click="openChecklistAddForm = !openChecklistAddForm" class="add-cart" ng-init="openChecklistAddForm = false">
+                            <i class="fa fa-plus"></i> Add checklist
+                        </button>
+                        <form class="add-checklist-form" ng-show="openChecklistAddForm">
+                            <fieldset>
+                                <legend>Add checklist</legend>
+                                <input type="text" name="checklistName" placeholder="checklist name" ng-model="checklistName" autocomplete="off">
+                                <input type="text" name="checklistDesc" placeholder="checklist description" ng-model="checklistDesc" autocomplete="off">
+                                <button type="submit"
+                                        class="btn"
+                                        ng-click="!checklistName || !checklistDesc ? return
+                                            : $ctrl.addCheckList(sheet.checklists, checklistName, checklistDesc);">
+                                    Add checklist
+                                </button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

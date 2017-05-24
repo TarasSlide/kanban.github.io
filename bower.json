@@ -1,0 +1,16 @@
+{
+  "name": "kanban",
+  "dependencies": {
+    "angular": "1.6.4",
+    "angular-route": "1.6.4",
+    "underscore": "1.8.3",
+    "angular-drag-and-drop-lists": "2.1.0",
+    "components-font-awesome": "4.7.0",
+    "angular-contenteditable": "0.3.8",
+    "bootstrap-sass": "3.3.7",
+    "angularjs-datepicker": "2.1.17"
+  },
+  "resolutions": {
+    "angular": "1.6.4"
+  }
+}

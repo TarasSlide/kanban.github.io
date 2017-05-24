@@ -1,0 +1,82 @@
+{
+  "name": "First board",
+  "columns": [
+    {
+      "id": "First column",
+      "title": "FirstColumn",
+      "totalTasks": 2,
+      "estimate": 80,
+      "remain": 40,
+      "sheets": [
+        {
+          "id": "secondSheet",
+          "title": "Second sheet title",
+          "description": "Sheet description",
+          "members": [],
+          "comments": [
+            "Comment",
+            "Comment2"
+          ],
+          "dueDate": "2017-04-11",
+          "timeTraking": {
+            "estimatedTime": "30m 1h",
+            "spentTime": "30m",
+            "remaningTime": "30m 2h"
+          },
+          "attachments": ["google.com"],
+          "checklists": [
+            {
+              "name": "checklist",
+              "description": "checklist description",
+              "checked": true
+            },
+            {
+              "name": "checklist2",
+              "description": "checklist description",
+              "checked": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "secondColumn",
+      "title": "Second column",
+      "totalTasks": 2,
+      "estimate": 80,
+      "remain": 40,
+      "sheets": [
+        {
+          "id": "secondSheet",
+          "title": "Second sheet title",
+          "description": "Sheet description",
+          "members": [],
+          "comments": [
+            "Comment",
+            "Comment2"
+          ],
+          "dueDate": "2017-04-11",
+          "timeTraking": {
+            "estimatedTime": "10m 1h",
+            "spentTime": "30m",
+            "remaningTime": "10m 2h",
+            "timeFormat": "time format"
+          },
+          "attachments": [],
+          "checklists": [
+            {
+              "name": "checklist",
+              "description": "checklist description",
+              "checked": true
+            },
+            {
+              "name": "checklist2",
+              "description": "checklist description",
+              "checked": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

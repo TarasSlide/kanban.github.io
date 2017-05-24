@@ -1,0 +1,33 @@
+@import "mixins";
+@import "variables";
+
+* {
+  @include box-sizing(border-box);
+  outline: none;
+}
+*:before,
+*:after {
+  @include box-sizing(border-box);
+}
+
+// Body reset
+html {
+  font-size: 10px;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  background: #fff;
+  height: 100%;
+}
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  color: $main-color;
+  background-color: $bg-color;
+  padding: 15px;
+  min-height: 100%;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+

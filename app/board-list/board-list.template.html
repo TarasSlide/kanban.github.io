@@ -1,0 +1,42 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <!--Body content-->
+            <ul class="boards-list">
+                <li ng-repeat="board in $ctrl.boards" class="boards-list-item">
+                    <remove-button remove-data="$ctrl.boards" remove-index="$index"></remove-button>
+                    <i class="fa edit-btn"
+                       ng-init="borderEditable = false"
+                       ng-class="{'fa-pencil-square-o text-primary': !borderEditable,'fa-check text-success': borderEditable}"
+                       ng-click="borderEditable = !borderEditable;">
+                    </i>
+                    <a ng-show="!borderEditable"
+                       ng-href="#!/boards/{{board.name | lowercase | removeSpaces}}"
+                       ng-class="{'edite-mode': borderEditable}"
+                       contenteditable="{{borderEditable}}"
+                       class="boards-list-link"
+                       ng-model="board.name"
+                    >
+                    </a>
+                    <a ng-show="borderEditable"
+                       ng-class="{'edite-mode': borderEditable}"
+                       contenteditable="{{borderEditable}}"
+                       class="boards-list-link"
+                       ng-model="board.name"
+                        >
+                    </a>
+                </li>
+                <li class="boards-list-item">
+                    <form class="form-inline" name="createBorderForm">
+                        <input type="text" name="borderName" placeholder="Border name" ng-model="name">
+                        <button type="submit"
+                                ng-click="!name ? return : $ctrl.addBoard($ctrl.boards, name | lowercase | removeSpaces, name); name = ''">
+                            Add board
+                        </button>
+                        <span ng-show="createBorderForm.borderName.$touched && createBorderForm.borderName.$invalid" class="error-text">Input required</span>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

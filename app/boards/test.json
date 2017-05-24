@@ -1,0 +1,25 @@
+{
+  "name": "Test board",
+  "columns": [
+    {
+      "id": "First column",
+      "title": "FirstColumn",
+      "totalTasks": 2,
+      "estimate": 80,
+      "remain": 40,
+      "sheets": [
+
+      ]
+    },
+    {
+      "id": "secondColumn",
+      "title": "Second column",
+      "totalTasks": 2,
+      "estimate": 80,
+      "remain": 40,
+      "sheets": [
+
+      ]
+    }
+  ]
+}

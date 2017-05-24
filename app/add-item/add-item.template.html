@@ -1,0 +1,14 @@
+<button ng-click="open = !open" class="add-cart" ng-init="open = false">
+    <i class="fa fa-plus"></i> Add {{$ctrl.itemname}}
+</button>
+<form class="add-member-form" ng-show="open">
+    <fieldset>
+        <legend>Add {{$ctrl.itemname}}</legend>
+        <input type="text" placeholder="Enter {{$ctrl.itemname}}" ng-model="item" autocomplete="off">
+        <button type="submit"
+                class="btn"
+                ng-click="!item ? return : $ctrl.addfunc($ctrl.array, item)">
+            Add {{$ctrl.itemname}}
+        </button>
+    </fieldset>
+</form>

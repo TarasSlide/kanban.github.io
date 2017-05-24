@@ -1,0 +1,73 @@
+@import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/clearfix";
+
+.color-white {
+  color: #fff;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.error-text {
+  color: #ff5e6c;
+}
+
+.remove-btn {
+  position: absolute !important;
+  right: 5px;
+  top: 3px;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.edit-btn {
+  position: absolute !important;
+  right: 25px;
+  top: 3px;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-success {
+  color: $text-success;
+}
+
+.text-danger {
+  color: $text-danger;
+}
+
+.text-primary {
+  color: $text-primary;
+}
+
+.border-block {
+  border: 1px solid $text-primary;
+  padding: 3px;
+  margin: 3px 0;
+}
+
+.btn {
+  display: inline-block;
+  padding: 5px;
+  margin: 5px;
+  border: 1px solid #afafaf;
+  background-color: rgba(167, 167, 167, 0.21);
+  color: #000;
+  border-radius: 3px;
+}
+
+.block {
+  display: block;
+}
+
+.clearfix {
+  @include clearfix();
+}
